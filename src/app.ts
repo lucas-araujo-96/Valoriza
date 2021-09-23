@@ -1,17 +1,13 @@
 import 'reflect-metadata';
 import express from 'express';
+import {router} from './routes/Routes';
 
 const server = express();
 
 import './database';
 
-server.get('/', (req, res) => {
-  return res.send('Olá GET');
-});
-
-server.post('/', (req, res) => {
-  return res.send('Olá POST');
-});
+server.use(express.json());
+server.use(router);
 
 const port = 3000;
 server.listen(port, () => {
