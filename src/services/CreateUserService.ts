@@ -1,6 +1,9 @@
 import {UserRepository} from '../database/repositories/UserRepository';
 import {getCustomRepository} from 'typeorm';
+/* Como estamos usando um repositório "customizado", não dá pra instanciar
+** ele direto, precisa importar esse getCustomRepository */
 
+/* Interface para os dados do usuário */
 interface IUserRequest {
     name: string;
     email: string;
@@ -20,5 +23,8 @@ export class CreateUserService {
     const user = userRepository.create({name, email, admin});
     await userRepository.save(user);
     return user;
+
+    /* IMPORTANTE: repository.create() instancia a entrada do bd, mas é
+    ** preciso chamar o .save manualmente para inseri-la */
   }
 };
