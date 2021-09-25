@@ -4,7 +4,7 @@
   "description": "��#\u0000 \u0000V\u0000a\u0000l\u0000o\u0000r\u0000i\u0000z\u0000a\u0000\r\u0000 \u0000",
   "main": "./src/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npx tsnd ./src/app.ts",
     "server": "npx tsnd ./src/app.ts",
     "preinstall": "npx npm-force-resolutions",
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js"
@@ -31,7 +31,6 @@
     "@types/express": "^4.17.13",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
-    "eslint": "^7.32.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.24.2",

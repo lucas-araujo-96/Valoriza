@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import express from 'express';
+import express, {Request, Response, NextFunction} from 'express';
 import {router} from './routes/Routes';
 /* 'reflect-metadata' é um pacote necessário ao typeorm */
 
@@ -9,7 +9,14 @@ import './database';
 /* A conexão com db no typeorm é feita com a importação direto pro app */
 
 server.use(express.json());
+
 server.use(router);
+
+server.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  if (err instanceof Error) {
+    res.status(400).json({error: err.message});
+  }
+});
 
 const port = 3000;
 server.listen(port, () => {
