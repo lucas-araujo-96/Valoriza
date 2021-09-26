@@ -10,8 +10,8 @@ export class CreateUserController {
     let user;
     try {
       user = await createUserService.execute({name, email, admin});
-      return res.json(user);
-    } catch(e) {
+      return res.status(200).json(user);
+    } catch (e) {
       next(e);
     }
   }
