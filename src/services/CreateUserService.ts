@@ -1,5 +1,6 @@
 import {UserRepository} from '../database/repositories/UserRepository';
 import {getCustomRepository} from 'typeorm';
+import { hash } from 'bcryptjs';
 /* Como estamos usando um repositório "customizado", não dá pra instanciar
 ** ele direto, precisa importar esse getCustomRepository */
 
@@ -19,9 +20,9 @@ export class CreateUserService {
 
     if (userAlreadyExists) throw new Error('User already exists');
 
-    if (!email) throw new Error('Email invalid or not informed');
+    const passwordHash = await hash(password, 10);
 
-    const user = userRepository.create({name, email, admin, password});
+    const user = userRepository.create({name, email, admin, password: passwordHash});
     await userRepository.save(user);
     return user;
 
