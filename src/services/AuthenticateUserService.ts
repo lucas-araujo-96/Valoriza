@@ -1,7 +1,7 @@
-import { UserRepository } from "../database/repositories/UserRepository";
-import { getCustomRepository } from "typeorm";
-import { compare } from "bcryptjs";
-import { sign } from 'jsonwebtoken'
+import {UserRepository} from '../database/repositories/UserRepository';
+import {getCustomRepository} from 'typeorm';
+import {compare} from 'bcryptjs';
+import {sign} from 'jsonwebtoken';
 
 
 interface IAuthRequest {
@@ -10,20 +10,20 @@ interface IAuthRequest {
 }
 
 export class AuthenticateUserService {
-    async execute({email, password}: IAuthRequest) {
-        const userRepository = getCustomRepository(UserRepository);
+  async execute({email, password}: IAuthRequest) {
+    const userRepository = getCustomRepository(UserRepository);
 
-        const user = await userRepository.findOne({email});
+    const user = await userRepository.findOne({email});
 
-        if (!user) throw new Error('Email/Password invalid');
-        
-        const passwordMatch = await compare(password, user.password);
+    if (!user) throw new Error('Email/Password invalid');
 
-        if (!passwordMatch) throw new Error('Email/Password invalid');
+    const passwordMatch = await compare(password, user.password);
 
-        const token = sign({email: user.email, admin: user.admin}, 'seeeeeeecreeeeeeeeeeeeet', {expiresIn: '1d'});
+    if (!passwordMatch) throw new Error('Email/Password invalid');
 
-        return token;
-        
-    }
+    const token = sign({email: user.email, admin: user.admin},
+        'seeeeeeecreeeeeeeeeeeeet', {expiresIn: '1d'});
+
+    return token;
+  }
 }

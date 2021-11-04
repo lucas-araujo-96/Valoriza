@@ -1,6 +1,6 @@
 import {UserRepository} from '../database/repositories/UserRepository';
 import {getCustomRepository} from 'typeorm';
-import { hash } from 'bcryptjs';
+import {hash} from 'bcryptjs';
 /* Como estamos usando um repositório "customizado", não dá pra instanciar
 ** ele direto, precisa importar esse getCustomRepository */
 
@@ -22,7 +22,9 @@ export class CreateUserService {
 
     const passwordHash = await hash(password, 10);
 
-    const user = userRepository.create({name, email, admin, password: passwordHash});
+    const user = userRepository.create(
+        {name, email, admin, password: passwordHash},
+    );
     await userRepository.save(user);
     return user;
 
