@@ -1,25 +1,21 @@
-import { Request, Response, NextFunction } from "express";
-import { AuthenticateUserService } from "../services/authenticateUserService";
+import {Request, Response, NextFunction} from 'express';
+import {AuthenticateUserService} from '../services/AuthenticateUserService';
 
 
 export class AuthenticateUserController {
-    async handle(req: Request, res: Response, next: NextFunction) {
-        const { email, password } = req.body;
+  async handle(req: Request, res: Response, next: NextFunction) {
+    const {email, password} = req.body;
 
-        const authenticateUserService = new AuthenticateUserService();
+    const authenticateUserService = new AuthenticateUserService();
 
-        let token;
+    let token;
 
-        try {
-
-            token = await authenticateUserService.execute({email, password});
-
-        } catch(e) {
-
-            next(e);
-
-        }
-
-        res.status(200).json(token);
+    try {
+      token = await authenticateUserService.execute({email, password});
+    } catch (e) {
+      next(e);
     }
+
+    res.status(200).json(token);
+  }
 }
