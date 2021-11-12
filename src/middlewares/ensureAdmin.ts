@@ -1,23 +1,20 @@
 import {Request, Response, NextFunction} from 'express';
-import {verify} from 'jsonwebtoken';
+import {getCustomRepository} from 'typeorm';
+import {UserRepository} from '../database/repositories/UserRepository';
 
-interface ITokenPayload {
-  email: string;
-  admin: boolean;
-  iat: number;
-  exp: number;
-}
+export async function ensureAdmin(
+    req: Request,
+    res: Response,
+    next: NextFunction) {
+  const user_id = req.user_id;
 
-export function ensureAdmin(req: Request, res: Response, next: NextFunction) {
-  const token = String(req.headers.authorization).split(' ')[1];
+  const userRepository = getCustomRepository(UserRepository);
 
-  if (!token) return res.status(401).json('Unauthorized');
+  const user = await userRepository.findOne({id: user_id});
 
-  const payload = verify(token, 'seeeeeeecreeeeeeeeeeeeet');
+  if (!user) return res.status(401).end();
 
-  if (!(payload as ITokenPayload).admin) {
-    return res.status(401).json('Unauthorized');
-  }
+  if (!user.admin) return res.status(401).end();
 
   next();
 }

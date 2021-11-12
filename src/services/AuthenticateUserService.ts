@@ -21,8 +21,9 @@ export class AuthenticateUserService {
 
     if (!passwordMatch) throw new Error('Email/Password invalid');
 
-    const token = sign({email: user.email, admin: user.admin},
-        'seeeeeeecreeeeeeeeeeeeet', {expiresIn: '1d'});
+    const token = sign({email: user.email},
+        'seeeeeeecreeeeeeeeeeeeet',
+        {expiresIn: '1d', subject: String(user.id)});
 
     return token;
   }
