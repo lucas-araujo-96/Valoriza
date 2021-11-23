@@ -30,10 +30,11 @@ export class CreateComplimentService {
 
     const complimentRepository = getCustomRepository(ComplimentRepository);
 
-    const compliment = await complimentRepository.create(
+    const compliment = complimentRepository.create(
         {user_sender, user_receiver, tag_id, message},
     );
     await complimentRepository.save(compliment);
+
     return compliment;
   }
 }
